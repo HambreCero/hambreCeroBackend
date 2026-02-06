@@ -1,0 +1,561 @@
+openapi: 3.0.1
+info:
+  title: Recipe App API
+  description: API for recipe and ingredient management
+  version: 1.0.0
+servers:
+  - url: 'http://localhost:8080'
+    description: Local Server
+
+paths:
+  # ========================================
+  # INGREDIENTS ENDPOINTS
+  # ========================================
+  /ingredients:
+    get:
+      summary: Get all ingredients
+      description: Returns a complete list of ingredients.
+      responses:
+        '200':
+          description: Ingredient list obtained successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/IngredientOutDto'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerError'
+
+    post:
+      summary: Create a new ingredient
+      description: Registers a new ingredient in the system
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/IngredientInDto'
+      responses:
+        '200':
+          description: Ingredient created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IngredientOutDto'
+        '400':
+          description: Invalid data (Validation or incorrect format)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequest'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerError'
+
+  /ingredients/{id}:
+    get:
+      summary: Get ingredient by ID
+      description: Returns a specific ingredient by its ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Ingredient ID
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Ingredient found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IngredientOutDto'
+        '404':
+          description: Ingredient not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFound'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerError'
+
+    put:
+      summary: Modify ingredient
+      description: Updates an existing ingredient's data
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID of the ingredient to modify
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/IngredientInDto'
+      responses:
+        '200':
+          description: Ingredient updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IngredientOutDto'
+        '400':
+          description: Invalid data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequest'
+        '404':
+          description: Ingredient not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFound'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerError'
+
+    delete:
+      summary: Delete ingredient
+      description: Deletes an ingredient from the system
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID of the ingredient to delete
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '204':
+          description: Ingredient deleted successfully
+        '404':
+          description: Ingredient not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFound'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerError'
+
+  # ========================================
+  # RECIPES ENDPOINTS
+  # ========================================
+  /recipes:
+    get:
+      summary: Get all recipes
+      description: Returns a complete list of recipes.
+      responses:
+        '200':
+          description: Recipe list obtained successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/RecipeOutDto'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerError'
+
+    post:
+      summary: Create a new recipe
+      description: Registers a new recipe in the system
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RecipeInDto'
+      responses:
+        '200':
+          description: Recipe created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RecipeOutDto'
+        '400':
+          description: Invalid data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequest'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerError'
+
+  /recipes/{id}:
+    get:
+      summary: Get recipe by ID
+      description: Returns a specific recipe by its ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Recipe ID
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Recipe found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RecipeOutDto'
+        '404':
+          description: Recipe not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFound'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerError'
+
+    put:
+      summary: Modify recipe
+      description: Updates an existing recipe's data
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID of the recipe to modify
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RecipeInDto'
+      responses:
+        '200':
+          description: Recipe updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RecipeOutDto'
+        '400':
+          description: Invalid data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequest'
+        '404':
+          description: Recipe not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFound'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerError'
+
+    delete:
+      summary: Delete recipe
+      description: Deletes a recipe from the system
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID of the recipe to delete
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '204':
+          description: Recipe deleted successfully
+        '404':
+          description: Recipe not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFound'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerError'
+
+components:
+  schemas:
+    # ==========================
+    # INGREDIENT DTOs
+    # ==========================
+    IngredientInDto:
+      type: object
+      required:
+        - name
+        - season
+        - harvestDate
+        - priceKg
+        - carbonFootprint
+      properties:
+        name:
+          type: string
+          minLength: 1
+          example: "Tomato"
+        calories:
+          type: integer
+          minimum: 0
+          example: 22
+        season:
+          type: string
+          description: Season of the year (SUMMER, WINTER, etc.)
+          example: "SUMMER"
+        isOrganic:
+          type: boolean
+          example: true
+        harvestDate:
+          type: string
+          format: date
+          example: "2025-06-15"
+        priceKg:
+          type: number
+          format: double
+          minimum: 0
+          example: 2.50
+        carbonFootprint:
+          type: number
+          format: double
+          minimum: 0
+          example: 0.4
+      example:
+        name: "Tomato"
+        calories: 22
+        season: "SUMMER"
+        isOrganic: true
+        harvestDate: "2025-06-15"
+        priceKg: 2.50
+        carbonFootprint: 0.4
+
+    IngredientOutDto:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 1
+        name:
+          type: string
+          example: "Tomato"
+        calories:
+          type: integer
+          example: 22
+        season:
+          type: string
+          example: "SUMMER"
+        isOrganic:
+          type: boolean
+          example: true
+        harvestDate:
+          type: string
+          format: date
+          example: "2025-06-15"
+        priceKg:
+          type: number
+          format: double
+          example: 2.50
+        carbonFootprint:
+          type: number
+          format: double
+          example: 0.4
+      example:
+        id: 1
+        name: "Tomato"
+        calories: 22
+        season: "SUMMER"
+        isOrganic: true
+        harvestDate: "2025-06-15"
+        priceKg: 2.50
+        carbonFootprint: 0.4
+
+    # ==========================
+    # RECIPE DTOs
+    # ==========================
+    RecipeInDto:
+      type: object
+      required:
+        - name
+        - estimatedCost
+        - lastModified
+        - servings
+        - ingredientIds
+      properties:
+        name:
+          type: string
+          minLength: 1
+          example: "Summer Salad"
+        difficulty:
+          type: integer
+          minimum: 1
+          maximum: 5
+          description: Difficulty level from 1 to 5
+          example: 1
+        vegetarian:
+          type: boolean
+          example: true
+        estimatedCost:
+          type: number
+          format: double
+          minimum: 0
+          example: 5.50
+        lastModified:
+          type: string
+          format: date
+          example: "2026-02-04"
+        servings:
+          type: integer
+          minimum: 1
+          example: 2
+        ingredientIds:
+          type: array
+          description: List of ingredient IDs
+          items:
+            type: integer
+            format: int64
+          example: [1, 5, 8]
+      example:
+        name: "Summer Salad"
+        difficulty: 1
+        vegetarian: true
+        estimatedCost: 5.50
+        lastModified: "2026-02-04"
+        servings: 2
+        ingredientIds: [1, 5]
+
+    RecipeOutDto:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 10
+        name:
+          type: string
+          example: "Summer Salad"
+        difficulty:
+          type: integer
+          example: 1
+        vegetarian:
+          type: boolean
+          example: true
+        estimatedCost:
+          type: number
+          format: double
+          example: 5.50
+        lastModified:
+          type: string
+          format: date
+          example: "2026-02-04"
+        servings:
+          type: integer
+          example: 2
+        ingredientIds:
+          type: array
+          items:
+            type: integer
+            format: int64
+          example: [1, 5]
+      example:
+        id: 10
+        name: "Summer Salad"
+        difficulty: 1
+        vegetarian: true
+        estimatedCost: 5.50
+        lastModified: "2026-02-04"
+        servings: 2
+        ingredientIds: [1, 5]
+
+    # ==========================
+    # ERROR SCHEMAS
+    # ==========================
+    ErrorResponse:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+          description: HTTP status numeric code
+          example: 404
+        title:
+          type: string
+          description: Short error title (e.g., not-found)
+          example: "not-found"
+        message:
+          type: string
+          description: Descriptive error message
+          example: "The resource does not exist"
+        errors:
+          type: object
+          description: Validation error map (Field -> Message)
+          additionalProperties:
+            type: string
+
+    BadRequest:
+      allOf:
+        - $ref: '#/components/schemas/ErrorResponse'
+      example:
+        code: 400
+        title: "bad-request"
+        message: "Validation error"
+        errors:
+          name: "Recipe name cannot be blank"
+          estimatedCost: "Cost must be positive"
+
+    NotFound:
+      allOf:
+        - $ref: '#/components/schemas/ErrorResponse'
+      example:
+        code: 404
+        title: "not-found"
+        message: "Recipe not found: 1"
+        errors: {}
+
+    InternalServerError:
+      allOf:
+        - $ref: '#/components/schemas/ErrorResponse'
+      example:
+        code: 500
+        title: "internal-error"
+        message: "Unexpected error"
+        errors: {}
