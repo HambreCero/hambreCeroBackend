@@ -1,0 +1,16 @@
+version: '3.8'
+
+services:
+  mariadb-recipe:
+    image: mariadb:10.11
+    container_name: recipe_db_container
+    ports:
+      - "3308:3306"  # Aquí está la magia: Mapeamos el 3308 externo al 3306 interno
+    environment:
+      - MARIADB_ROOT_PASSWORD=root
+      - MARIADB_DATABASE=recipeapp
+    volumes:
+      - recipe_data:/var/lib/mysql
+
+volumes:
+  recipe_data:
