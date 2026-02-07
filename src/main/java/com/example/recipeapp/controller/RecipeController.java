@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
 import java.util.List;
 
 @Slf4j
@@ -43,21 +44,21 @@ public class RecipeController {
     }
 
   @PostMapping("/recipes")
-    public RecipeOutDto createRecipe(@Valid @RequestBody RecipeInDto inDto) {
+    public ResponseEntity<RecipeOutDto>createRecipe(@Valid @RequestBody RecipeInDto inDto) {
         log.info("POST /recipes - creating recipe name='{}' ingredientIds={}",
                 inDto.name, inDto.ingredientIds);
         RecipeOutDto created = recipeService.create(inDto);
         log.info("POST /recipes - recipe created");
-        return created;
+        return ResponseEntity.status(HttpStatus.CREATED).body(created);
     }
 
     @PutMapping("/recipes/{id}")
-    public RecipeOutDto updateRecipe(@PathVariable Long id, @Valid @RequestBody RecipeInDto inDto) {
+    public ResponseEntity <RecipeOutDto> updateRecipe(@PathVariable Long id, @Valid @RequestBody RecipeInDto inDto) {
         log.info("PUT /recipes/{} - updating recipe name='{}' ingredientIds={}",
             id, inDto.name, inDto.ingredientIds);
         RecipeOutDto updated = recipeService.update(id, inDto);
         log.info("PUT /recipes/{} - recipe updated", id);
-        return updated;
+        return ResponseEntity.status(HttpStatus.ACCEPTED).body(updated);
     }
 
 
