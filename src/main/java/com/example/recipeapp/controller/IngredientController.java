@@ -6,6 +6,7 @@ import com.example.recipeapp.dto.IngredientOutDto;
 import com.example.recipeapp.service.IngredientService;
 import jakarta.validation.Valid;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,11 +23,11 @@ public class IngredientController {
     }
 
     @PostMapping("/ingredients")
-    public IngredientOutDto createIngredient(@Valid @RequestBody IngredientInDto inDto) {
+    public ResponseEntity<IngredientOutDto> createIngredient(@Valid @RequestBody IngredientInDto inDto) {
         log.info("POST /ingredients - creating ingredient");
         IngredientOutDto created = ingredientService.create(inDto);
         log.info("POST /ingredients - ingredient created");
-        return created;
+        return ResponseEntity.status(HttpStatus.CREATED).body(created);
     }
 
     @GetMapping("/ingredients")
@@ -46,11 +47,11 @@ public class IngredientController {
     }
 
     @PutMapping("/ingredients/{id}")
-    public IngredientOutDto updateIngredient(@PathVariable Long id, @Valid @RequestBody IngredientInDto inDto) {
+    public ResponseEntity<IngredientOutDto> updateIngredient(@PathVariable Long id, @Valid @RequestBody IngredientInDto inDto) {
         log.info("PUT /ingredients/{} - updating ingredient", id);
         IngredientOutDto updated = ingredientService.update(id, inDto);
         log.info("PUT /ingredients/{} - ingredient updated", id);
-        return updated;
+        return ResponseEntity.status(HttpStatus.CREATED).body(updated);
     }
 
     @DeleteMapping("/ingredients/{id}")
