@@ -51,4 +51,7 @@ public class Recipe {
             inverseJoinColumns = @JoinColumn(name = "ingredient_id")
     )
     private List<Ingredient> ingredients;
+    
+    @Column(name = "image_name")
+    private String imageName;
 }

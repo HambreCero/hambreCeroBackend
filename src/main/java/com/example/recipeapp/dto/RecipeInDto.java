@@ -31,4 +31,7 @@ public class RecipeInDto {
 
     @NotNull(message = "ingredientIds cannot be null")
     public List<Long> ingredientIds;
+
+    public String imageName;
+
 }

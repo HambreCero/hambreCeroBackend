@@ -32,10 +32,15 @@ public class RecipeService {
                     .stream()
                     .map(Ingredient::getId)
                     .toList();
-                }
-
+            }
+            if (recipe.getImageName() != null && !recipe.getImageName().isBlank()) {
+                 out.setImageUrl("/images/" + recipe.getImageName());
+             } else {
+                 out.setImageUrl(null);
+        }
      return out;
     }
+
     public List<RecipeOutDto> findAll() {
         return recipeRepository.findAll()
                 .stream()
@@ -52,6 +57,7 @@ public class RecipeService {
         recipe.setEstimatedCost(inDto.estimatedCost);
         recipe.setLastModified(inDto.lastModified);
         recipe.setServings(inDto.servings);
+        recipe.setImageName(inDto.imageName);
 
         List<Ingredient> ingredients = ingredientRepository.findAllById(inDto.ingredientIds);
 
@@ -83,7 +89,7 @@ public class RecipeService {
             recipe.setEstimatedCost(inDto.estimatedCost);
             recipe.setLastModified(inDto.lastModified);
             recipe.setServings(inDto.servings);
-
+            recipe.setImageName(inDto.imageName);
         List<Ingredient> ingredients = ingredientRepository.findAllById(inDto.ingredientIds);
         if (ingredients.size() != inDto.ingredientIds.size()) {
             throw new IllegalArgumentException("Some ingredientIds do not exist");
