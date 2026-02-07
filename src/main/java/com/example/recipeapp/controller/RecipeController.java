@@ -58,7 +58,7 @@ public class RecipeController {
             id, inDto.name, inDto.ingredientIds);
         RecipeOutDto updated = recipeService.update(id, inDto);
         log.info("PUT /recipes/{} - recipe updated", id);
-        return ResponseEntity.status(HttpStatus.ACCEPTED).body(updated);
+        return ResponseEntity.status(HttpStatus.OK).body(updated);
     }
 
 
