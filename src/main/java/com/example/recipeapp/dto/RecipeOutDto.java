@@ -4,6 +4,7 @@ import lombok.Data;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
+
 @Data
 public class RecipeOutDto {
     private Long id;
@@ -15,5 +16,6 @@ public class RecipeOutDto {
     private int servings;
 
     public List<Long> ingredientIds;
+    private String imageUrl;
 
 }

@@ -7,6 +7,7 @@ import java.time.LocalDate;
 
 @Data
 public class IngredientOutDto {
+    
     private Long id;
     private String name;
     private int calories;
@@ -15,4 +16,5 @@ public class IngredientOutDto {
     private LocalDate harvestDate;
     private BigDecimal priceKg;
     private BigDecimal carbonFootprint;
+
 }
